@@ -1,70 +1,66 @@
-# Getting Started with Create React App
+# Feedback App - React Context API
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#### Run the Project
+- `npm install`
+- `npm start`
 
-## Available Scripts
+#### Prerequisites
+- Knowledge of React Basics
+- React Router Dom (both v5 and v6)
+- Hooks
+- React Context (you can learn by doing this challenge)
 
-In the project directory, you can run:
+#### Challenge
+The idea of this challenge is to add [React Context API](https://reactjs.org/docs/context.html) to the existing project
 
-### `yarn start`
+Currently this project is passing down from `App.js`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- feedback (state)
+- addFeeback (function)
+- deleteFeeback (function)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```jsx
+    <FeedbackForm handleAdd={addFeeback} />
+    <FeedbackStats feedback={feedback} />
+    <FeedbackList feedback={feedback} handleDelete={deleteFeeback} />
 
-### `yarn test`
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+How do you utilize Context API to eliminate passing down props and storing global state in context ?
 
-### `yarn build`
+### Steps
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+If you don't know where to start. Try to follow below steps to assit you.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Create a folder called **context** inside **src** folder.
+2. Create a file called **FeedbackContext**
+3. Import `createContext` from `react` and use it create a context.
+4. Create FeedbackProvider component:
+```jsx
+    export const FeedbackProvider = ({children}) => {
+        // ...
+        // move your feedback state, functions to here
+        // const [feedback, setFeedback] = useState(FeedbackData)
+        // ...
+        return <FeedbacContext.Provider
+            value={{feeback}}>
+            {children}
+            </FeebackContext.Provider>
+        >
+    }
+```
+5. Import `FeedbackProvider` from `context/FeedbackContext` to `App.js`
+6. Wrap all your component inside this `FeedbackProvider`.
+7. Using `useContext` hook, cleanup `FeedbackList.jsx` file to use state from context but not from `App.js`
+8. Don't forget to delete `feedback` from 
+```jsx
+    <FeedbackList feedback={feedback} handleDelete={deleteFeeback} /> 
+```
+9. Move your functions (deleteFeeback, addFeeback) to `FeedbackContext.jsx` file and cleanup `FeedbackList.jsx`, `FeedbackItem.jsx` files. Basically wherever you are using `handleDelete`, `handleAdd` functions.
+10. Cleanup `App.js`,(all state, props etc),  `FeedbackForm.jsx` (addFeedback) to use context data.
+11. Overall, your `FeedbackContext.jsx` file should contain global `feebdack` state and `deleteFeedback`, `addFeedback` functions. 
+12. `App.js` should be clean at the end of all migrations and will be pure component.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+#### Author
+- Author of this project: [Traversy Media](https://www.youtube.com/c/TraversyMedia)
+- Project is not complete. Some piece of it was used. 
